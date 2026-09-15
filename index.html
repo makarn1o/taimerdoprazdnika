@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Таймер до важного события</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="bg-glow bg-glow--one" aria-hidden="true"></div>
+  <div class="bg-glow bg-glow--two" aria-hidden="true"></div>
+
+  <div class="page">
+    <header class="hero">
+      <p class="eyebrow">Школьный проект · без интернета и сервера</p>
+      <h1>Таймер до важного события</h1>
+      <p class="lead">Выбери день рождения, каникулы, Новый год или своё событие — и смотри, сколько осталось.</p>
+    </header>
+
+    <main>
+      <!-- Карточка с названием, датой и большим обратным отсчётом -->
+      <section class="card timer-card" aria-live="polite">
+        <div class="timer-head">
+          <span class="badge" id="event-badge">Событие не выбрано</span>
+          <h2 id="event-title">Выбери событие ниже</h2>
+          <p class="event-date" id="event-date">Дата появится после выбора</p>
+        </div>
+
+        <div class="countdown" id="countdown">
+          <div class="unit">
+            <span class="unit-value" id="days">00</span>
+            <span class="unit-label">дней</span>
+          </div>
+          <div class="unit">
+            <span class="unit-value" id="hours">00</span>
+            <span class="unit-label">часов</span>
+          </div>
+          <div class="unit">
+            <span class="unit-value" id="minutes">00</span>
+            <span class="unit-label">минут</span>
+          </div>
+          <div class="unit unit--seconds">
+            <span class="unit-value" id="seconds">00</span>
+            <span class="unit-label">секунд</span>
+          </div>
+        </div>
+
+        <p class="arrived hidden" id="arrived-message">Событие уже наступило!</p>
+      </section>
+
+      <!-- Выбор готовых событий и своей даты -->
+      <section class="card picker-card">
+        <h2>Какое событие ждём?</h2>
+        <p class="hint">Нажми кнопку — затем подтверди, чтобы таймер запустился.</p>
+
+        <div class="preset-grid" role="group" aria-label="Готовые события">
+          <button type="button" class="preset" data-preset="birthday">
+            <span class="preset-emoji" aria-hidden="true">🎂</span>
+            <span class="preset-name">День рождения</span>
+          </button>
+          <button type="button" class="preset" data-preset="vacation">
+            <span class="preset-emoji" aria-hidden="true">☀️</span>
+            <span class="preset-name">Каникулы</span>
+          </button>
+          <button type="button" class="preset" data-preset="newyear">
+            <span class="preset-emoji" aria-hidden="true">🎄</span>
+            <span class="preset-name">Новый год</span>
+          </button>
+          <button type="button" class="preset" data-preset="custom">
+            <span class="preset-emoji" aria-hidden="true">✨</span>
+            <span class="preset-name">Своё событие</span>
+          </button>
+        </div>
+
+        <form class="custom-form" id="event-form" novalidate>
+          <label class="field">
+            <span>Название события</span>
+            <input type="text" id="event-name-input" maxlength="60" placeholder="Например: концерт или каникулы">
+          </label>
+          <label class="field">
+            <span>Дата события</span>
+            <input type="date" id="event-date-input" required>
+          </label>
+          <button type="submit" class="btn btn-primary" id="apply-btn">Запустить таймер</button>
+          <p class="form-error hidden" id="form-error" role="alert"></p>
+        </form>
+      </section>
+
+      <!-- Факт, картинка и фраза дня — меняются раз в сутки -->
+      <section class="daily-grid">
+        <article class="card daily-card">
+          <h2>Факт дня</h2>
+          <p id="daily-fact">Загрузка факта…</p>
+        </article>
+
+        <article class="card daily-card image-card">
+          <h2>Картинка дня</h2>
+          <figure>
+            <img id="daily-image" src="images/day-1.svg" alt="Тематическая иллюстрация дня">
+            <figcaption id="daily-image-caption">Тема дня</figcaption>
+          </figure>
+        </article>
+
+        <article class="card daily-card">
+          <h2>Фраза дня</h2>
+          <blockquote id="daily-quote">Загрузка фразы…</blockquote>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Работает локально: открой <code>index.html</code> двойным щелчком. Выбор события сохраняется в браузере.</p>
+    </footer>
+  </div>
+
+  <!-- Модальное окно подтверждения смены события -->
+  <div class="modal hidden" id="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+    <div class="modal-backdrop" data-close="true"></div>
+    <div class="modal-box">
+      <h2 id="confirm-title">Подтвердить событие?</h2>
+      <p id="confirm-text"></p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="confirm-cancel">Отмена</button>
+        <button type="button" class="btn btn-primary" id="confirm-ok">Да, запустить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Скрипты без type="module", чтобы всё открывалось через file:// -->
+  <script src="js/storage.js"></script>
+  <script src="js/content.js"></script>
+  <script src="js/timer.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
